@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\TwitterController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group([
+    "prefix" => "twitter",
+    "middleware" => "throttle:100,1",
+], function () {
+    Route::get('/login', [TwitterController::Class, "login"])->name("twitter.login");
+    Route::get('/callback', [TwitterController::Class, "callback"])->name("twitter.callback");
 });
