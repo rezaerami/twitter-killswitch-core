@@ -54,8 +54,10 @@ class ReadTweets implements ShouldQueue
 
         $tweets = $twitter->userTweets($credentials->twitter_user_id, $params);
 
-        foreach ($tweets->data as $tweet){
-            DestroyTweets::dispatch($this->data, SecurityHelpers::idToHashId($tweet->id));
+        if(isset($tweets->data)) {
+            foreach ($tweets->data as $tweet) {
+                DestroyTweets::dispatch($this->data, SecurityHelpers::idToHashId($tweet->id));
+            }
         }
 
         if(isset($tweets->meta->next_token)) {
@@ -64,6 +66,9 @@ class ReadTweets implements ShouldQueue
             )->delay(
                 now()->addMinutes(15) // because of twitter rate limit you can only remove 50 tweets per 15 minutes
             );
+        }
+        else {
+            $user->delete(); // remove user from db when operation is done
         }
     }
 }

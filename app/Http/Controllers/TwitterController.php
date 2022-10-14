@@ -78,6 +78,13 @@ class TwitterController extends Controller
 
         $data = $request->cookie(CookieConstants::TOKEN_COOKIE_NAME);
 
+        $userCode = json_decode(base64_decode($data))->userCode;
+        $userId = SecurityHelpers::hashIdToId($userCode);
+        $user = User::where("id", $userId)->first();
+        if(!$user){
+            throw new \Exception("Unauthorized", 401);
+        }
+
         ReadTweets::dispatch($data);
         return response(["status" => "success"]);
 
