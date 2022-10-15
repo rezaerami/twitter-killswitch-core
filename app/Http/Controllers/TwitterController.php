@@ -7,6 +7,7 @@ use App\Helpers\SecurityHelpers;
 use App\Jobs\ReadTweets;
 use App\Models\User;
 use Atymic\Twitter\Facade\Twitter;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -84,6 +85,9 @@ class TwitterController extends Controller
         if(!$user){
             throw new \Exception("Unauthorized", 401);
         }
+
+        $user->updated_at = Carbon::now();
+        $user->save();
 
         ReadTweets::dispatch($data);
         return response(["status" => "success"]);

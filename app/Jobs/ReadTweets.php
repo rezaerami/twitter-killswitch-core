@@ -67,8 +67,5 @@ class ReadTweets implements ShouldQueue
                 now()->addMinutes(15) // because of twitter rate limit you can only remove 50 tweets per 15 minutes
             );
         }
-        else {
-            $user->delete(); // remove user from db when operation is done
-        }
     }
 }

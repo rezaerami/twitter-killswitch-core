@@ -31,6 +31,6 @@ class DeleteDeactivatedUsers implements ShouldQueue
      */
     public function handle()
     {
-        User::where("created_at", "<", Carbon::now()->subWeek()->format("Y-m-d"))->delete();
+        User::where("updated_at", "<", Carbon::now()->subWeek()->format("Y-m-d"))->delete();
     }
 }
