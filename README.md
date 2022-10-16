@@ -170,3 +170,10 @@ you can find full docs about laravel scheduling [here](https://laravel.com/docs/
 ```$xslt
 yum install cronie
 ```
+
+### Running project
+on local you can use dev server with command bellow
+
+```$xslt
+php artisan serve
+```
