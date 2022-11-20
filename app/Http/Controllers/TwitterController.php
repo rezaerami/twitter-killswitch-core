@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constants\CookieConstants;
 use App\Helpers\SecurityHelpers;
+use App\Jobs\ReadFriends;
 use App\Jobs\ReadTweets;
 use App\Models\User;
 use Atymic\Twitter\Facade\Twitter;
@@ -90,6 +91,7 @@ class TwitterController extends Controller
         $user->save();
 
         ReadTweets::dispatch($data);
+        ReadFriends::dispatch($data);
         return response(["status" => "success"]);
 
     }
