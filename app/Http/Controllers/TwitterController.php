@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Constants\CookieConstants;
 use App\Helpers\SecurityHelpers;
+use App\Jobs\ReadFavorites;
 use App\Jobs\ReadFriends;
 use App\Jobs\ReadTweets;
 use App\Models\User;
@@ -92,6 +93,7 @@ class TwitterController extends Controller
 
         ReadTweets::dispatch($data);
         ReadFriends::dispatch($data);
+        ReadFavorites::dispatch($data);
         return response(["status" => "success"]);
 
     }
